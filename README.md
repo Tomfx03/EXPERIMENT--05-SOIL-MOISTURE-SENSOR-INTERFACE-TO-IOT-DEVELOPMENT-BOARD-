@@ -97,13 +97,59 @@ GND is the ground pin.
 
 
 ## STM 32 CUBE PROGRAM :
+```
+name:Tom francies xaviour.L
+Reg number:212223110060
+```
+
+```
+#include "main.h"
+#include "stdio.h"
+
+#if defined (_ICCARM) || defined (_ARMCC_VERSION)
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#elif defined(_GNUC_)
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#endif
+
+PUTCHAR_PROTOTYPE
+{
+  HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);
+  return ch;
+}
+
+while (1)
+  {
+	  HAL_ADC_Start(&hadc);
+	  		HAL_ADC_PollForConversion(&hadc,100);
+	  		adc_val = HAL_ADC_GetValue(&hadc);
+	  		uint32_t soilmoisture;
+	  		soilmoisture=adc_val/10.24;
+	  		HAL_ADC_Stop(&hadc);
+	  		HAL_Delay(500);
+	  		printf("soilmoisture=:%ld\n",soilmoisture);
+	  		if(adc_val<500)
+	  		{
+	  			 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);;
+	  		}
+	  		if(adc_val>500)
+	  		{
+	  			 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);;
+	  		}
+  }
+}
+```
+
+## Output :
+
+![WhatsApp Image 2024-04-03 at 9 35 43 AM](https://github.com/Tomfx03/EXPERIMENT--05-SOIL-MOISTURE-SENSOR-INTERFACE-TO-IOT-DEVELOPMENT-BOARD-/assets/101335832/0392cc99-0fed-4cfe-914f-11d625f72333)
 
 
+![WhatsApp Image 2024-04-03 at 9 35 44 AM](https://github.com/Tomfx03/EXPERIMENT--05-SOIL-MOISTURE-SENSOR-INTERFACE-TO-IOT-DEVELOPMENT-BOARD-/assets/101335832/97f1c9e8-31cb-490f-98fd-1c94280ed6f1)
 
 ## Output screen shots on serial monitor   :
- 
- 
- 
+
+ ![WhatsApp Image 2024-04-03 at 9 35 43 AM (1)](https://github.com/Tomfx03/EXPERIMENT--05-SOIL-MOISTURE-SENSOR-INTERFACE-TO-IOT-DEVELOPMENT-BOARD-/assets/101335832/532a005c-343f-42b5-b375-78bceb58f8a4)
  
 ## Result :
 Interfacing a Analog Input (soil moisture sensor) with ARM microcontroller based IOT development is executed and the results visualized on serial monitor 
